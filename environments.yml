@@ -1,0 +1,16 @@
+name: django-app
+provider: gcp
+flavor: gke
+version: 1
+
+collections:
+# eventually you would likely add a "prod" collection in another AWS account as well by adding another element here
+- name: dev
+  region: us-east1
+  base_domain: gkedemo1.cncsites.com
+  account_id: "theta-era-421317"
+  environments:
+  - name: staging
+    environment_variables:
+    - name: FOO
+      value: bar

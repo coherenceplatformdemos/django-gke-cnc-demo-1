@@ -1,0 +1,24 @@
+services:
+  app:
+    command: "python manage.py runserver 0.0.0.0:$PORT"
+    x-cnc:
+      type: backend
+      workers:
+      - name: default-queue-worker
+      # REDIS_URL will be populated by the redis service below by CNC
+        command: "rq worker --with-scheduler --url $REDIS_URL"
+        system:
+          cpu: 1
+          memory: 1G
+        replicas: 1
+    build:
+      context: .
+  db:
+    x-cnc:
+      type: database
+      version: 15
+    image: postgres
+  redis:
+    x-cnc:
+      type: cache
+    image: redis
